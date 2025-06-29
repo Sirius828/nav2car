@@ -1,0 +1,57 @@
+# depthimage_to_laserscan 配置
+/depthimage_to_laserscan:
+  ros__parameters:
+    # 输入深度图像话题
+    # 输出扫描角度范围（弧度）
+    scan_height: 1                # 深度图像中用于激光扫描的行数
+    range_min: 0.05              # 最小有效距离（米）
+    range_max: 8.0               # 最大有效距离（米）
+    output_frame_id: camera_depth_frame  # 输出激光扫描的坐标系
+
+
+/ros2_laser_scan_merger:
+  ros__parameters:
+    flip1: false
+    flip2: false
+    inverse1: true
+    inverse2: false
+    laser1Alpha: 0.0
+    laser1AngleMax: 60.0
+    laser1AngleMin: -60.0
+    laser1B: 0
+    laser1G: 0
+    laser1R: 255
+    laser1XOff: -0.093853
+    laser1YOff: -0.0
+    laser1ZOff: 0.12672
+    laser2Alpha: 0.0
+    laser2AngleMax: 60.0
+    laser2AngleMin: -60.0
+    laser2B: 255
+    laser2G: 0
+    laser2R: 0
+    laser2XOff: 0.11819
+    laser2YOff: 0.0
+    laser2ZOff: 0.083546
+    pointCloudTopic: cloud_merged
+    pointCloutFrameId: base_link
+    scanTopic1: /scan
+    scanTopic2: /scan_depth
+    show1: true
+    show2: true
+    use_sim_time: false
+
+/pointcloud_to_laserscan:
+  ros__parameters:
+    cloud_in: cloud_merged
+    scan: scan_merged
+    min_height: 0.0
+    max_height: 2.0
+    angle_min: -3.14
+    angle_max: 3.14
+    angle_increment: 0.01745
+    range_min: 0.05
+    range_max: 8.0
+    target_frame: base_link
+    transform_tolerance: 0.01
+    use_inf: true
