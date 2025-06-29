@@ -1,13 +1,12 @@
-<!--It is not necessary to visualize your robot in RVIz, but it’s a good step in order to see if you have properly defined your URDF.-->
-
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rb21_bot">
+<!--It is not necessary to visualize your robot in RVIz, but it’s a good step in order to see if you have properly defined your URDF.-->
   <!-- Parameters -->
   <xacro:property name="hex_flat2flat"  value="0.28784"/>  <!-- Hexagon flat-to-flat distance, m -->
   <xacro:property name="height"          value="0.091"/>  <!-- Total height, m -->
   <xacro:property name="mass"            value="2.0"/>  <!-- Total mass, kg -->
-  <xacro:property name="cam_xyz"         value="0.11819 0 0.083546"/> <!-- Camera center (x y z) -->
-  <xacro:property name="lidar_xyz"       value="-0.093853 0 0.12672"/> <!-- LiDAR center (x y z) -->
+  <xacro:property name="cam_xyz"         value="-0.157752 0 0.05550"/> <!-- Camera center (x y z) -->
+  <xacro:property name="lidar_xyz"       value="0.136965 0 0.021987"/> <!-- LiDAR center (x y z) -->
 
   <!-- Base chassis -->
   <link name="base_link">
@@ -37,8 +36,8 @@
     </collision>
   </link>
 
-  <!-- Depth Camera -->
-  <link name="depth_cam_link">
+  <!-- Camera -->
+  <link name="camera_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry><box size="0.05 0.05 0.03"/></geometry>
@@ -46,23 +45,14 @@
     </visual>
   </link>
 
-  <joint name="depth_cam_joint" type="fixed">
+  <joint name="camera_joint" type="fixed">
     <parent link="base_link"/>
-    <child  link="depth_cam_link"/>
+    <child  link="camera_link"/>
     <origin xyz="${cam_xyz}" rpy="0 0 0"/>
   </joint>
 
-  <!-- Camera optical frame -->
-  <link name="depth_cam_optical_frame"/>
-  <joint name="depth_cam_optical_joint" type="fixed">
-    <parent link="depth_cam_link"/>
-    <child  link="depth_cam_optical_frame"/>
-    <!-- -90 degrees about X, -90 degrees about Z -->
-    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
-  </joint>
-
-  <!-- LiDAR -->
-  <link name="lidar_link">
+  <!-- LiDAR (倒置) -->
+  <link name="lidar">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry><cylinder length="0.04" radius="0.02"/></geometry>
@@ -72,7 +62,7 @@
 
   <joint name="lidar_joint" type="fixed">
     <parent link="base_link"/>
-    <child  link="lidar_link"/>
-    <origin xyz="${lidar_xyz}" rpy="0 0 0"/>
+    <child  link="lidar"/>
+    <origin xyz="${lidar_xyz}" rpy="0 3.14159 0"/>
   </joint>
 </robot>
