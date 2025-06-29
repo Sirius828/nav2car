@@ -1,0 +1,16 @@
+optical_flow:
+    ros__parameters:
+        timer_period: 0.01 # min 0.01
+        sensor_timeout: 0.5
+        parent_frame: odom
+        child_frame: base_link
+        x_init: 0.0 # Initial x position in meters
+        y_init: 0.0 # Initial y position in meters
+        z_height: 0.08 # Height of the sensor from the base frame in meters
+        board: pmw3901 # [pmw3901, paa5100] - 您的传感器类型
+        motion_scale: 5 # Scale factor for motion calculation
+        spi_nr: 0  # SPI0 - 匹配您的连接 (Pin 19,21,23)
+        spi_slot: back # back对应CE0 (Pin 24) - 匹配您的CS连接
+        int_gpio: 31 
+        rotation: 0 # [0, 90, 180, 270]
+        publish_tf: true
